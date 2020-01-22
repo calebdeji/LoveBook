@@ -1,14 +1,8 @@
 import React from "react";
-import {
-    StyleSheet,
-    Text,
-    View,
-    ImageBackground,
-    AsyncStorage,
-    ActivityIndicator
-} from "react-native";
+import { AsyncStorage, ActivityIndicator } from "react-native";
 import { createAppContainer } from "react-navigation";
 import { createStackNavigator } from "react-navigation-stack";
+import { SafeAreaProvider } from "react-native-safe-area-context";
 import {
     HomeScreenString,
     DateFoundScreenString
@@ -32,7 +26,12 @@ const loadNavigationState = async () => {
 
 const stackNavigator = createStackNavigator(
     {
-        [HomeScreenString]: { screen: Home }
+        [HomeScreenString]: {
+            screen: Home,
+            navigationOptions: {
+                headerShown: false
+            }
+        }
     },
     {
         defaultNavigationOptions: {
@@ -44,11 +43,13 @@ const stackNavigator = createStackNavigator(
 const AppContainer = createAppContainer(stackNavigator);
 
 const App = () => {
-    <AppContainer
-        persistNavigationState={persistNavigationState}
-        loadNavigationState={loadNavigationState}
-        renderLoadingExperimental={() => <ActivityIndicator />}
-    />;
+    return (
+        <AppContainer
+            persistNavigationState={persistNavigationState}
+            loadNavigationState={loadNavigationState}
+            renderLoadingExperimental={() => <ActivityIndicator />}
+        />
+    );
 };
 
 export default App;
